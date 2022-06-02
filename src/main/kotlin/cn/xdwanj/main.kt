@@ -21,6 +21,7 @@ fun App() {
     }) {
       Text(text)
     }
+    println("hello compose!")
   }
 }
 

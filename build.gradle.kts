@@ -29,9 +29,15 @@ val springBootVersion = "2.7.0"
 dependencies {
   implementation(compose.desktop.currentOs)
   implementation("com.squareup.okhttp3:okhttp:4.10.0-RC1")
+  implementation("com.google.code.gson:gson:2.9.0")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1-native-mt")
+
   implementation("org.springframework.boot:spring-boot-starter")
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+  testImplementation("org.springframework.boot:spring-boot-starter-test")
+  testImplementation("junit:junit:4.13.2")
 }
 
 tasks.withType<KotlinCompile>() {

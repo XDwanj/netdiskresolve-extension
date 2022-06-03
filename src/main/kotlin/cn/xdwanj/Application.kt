@@ -8,6 +8,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import cn.xdwanj.data.api.ResolveApi
+import cn.xdwanj.ui.App
+import com.google.gson.Gson
 import org.springframework.beans.factory.getBean
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.WebApplicationType
@@ -18,13 +20,15 @@ import org.springframework.http.client.ClientHttpRequestFactory
 import org.springframework.http.client.SimpleClientHttpRequestFactory
 import org.springframework.web.client.RestTemplate
 
-const val BASE_URL = "http://159.75.54.27:8200"
-
-val context = _context
+const val BASE_URL = "http://159.75.54.27:8200/"
+val context by lazy { _context }
 private lateinit var _context: ApplicationContext
 
 @SpringBootApplication
 class Application {
+  @Bean
+  fun gson() = Gson()
+
   @Bean
   fun restTemplate(factory: ClientHttpRequestFactory) = RestTemplate(factory)
 
@@ -41,7 +45,7 @@ fun main() = application {
     webApplicationType = WebApplicationType.NONE
   }.run()
 
-  val bean = _context.getBean<ResolveApi>()
+  val bean = context.getBean<ResolveApi>()
 
   Window(onCloseRequest = ::exitApplication) {
     App()
@@ -50,15 +54,6 @@ fun main() = application {
 
 @Preview
 @Composable
-fun App() {
-  var text by remember { mutableStateOf("Hello, World!") }
-
-  MaterialTheme {
-    Button(onClick = {
-      text = "Hello, Desktop!"
-    }) {
-      Text(text)
-    }
-    println("hello compose!")
-  }
+fun PreviewApp() {
+  App()
 }

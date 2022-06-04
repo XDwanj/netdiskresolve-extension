@@ -1,13 +1,10 @@
 package cn.xdwanj
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import cn.xdwanj.data.api.ResolveApi
+import cn.xdwanj.data.api.impl.ResolveApi
 import cn.xdwanj.ui.App
 import com.google.gson.Gson
 import org.springframework.beans.factory.getBean
@@ -18,25 +15,30 @@ import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.http.client.ClientHttpRequestFactory
 import org.springframework.http.client.SimpleClientHttpRequestFactory
+import org.springframework.web.client.AsyncRestTemplate
 import org.springframework.web.client.RestTemplate
+import org.springframework.web.reactive.function.client.WebClient
 
-const val BASE_URL = "http://159.75.54.27:8200/"
+const val BASE_URL = "http://159.75.54.27:8200"
 val context by lazy { _context }
 private lateinit var _context: ApplicationContext
 
 @SpringBootApplication
-class Application {
+open class Application {
   @Bean
-  fun gson() = Gson()
+  open fun gson() = Gson()
 
   @Bean
-  fun restTemplate(factory: ClientHttpRequestFactory) = RestTemplate(factory)
+  open fun restTemplate(factory: ClientHttpRequestFactory) = RestTemplate(factory)
 
   @Bean
-  fun clientHttpRequestFactory() = SimpleClientHttpRequestFactory().apply {
+  open fun clientHttpRequestFactory() = SimpleClientHttpRequestFactory().apply {
     setReadTimeout(5000)
     setConnectTimeout(15000)
   }
+
+  @Bean
+  open fun webClient(): WebClient = WebClient.create(BASE_URL)
 }
 
 fun main() = application {

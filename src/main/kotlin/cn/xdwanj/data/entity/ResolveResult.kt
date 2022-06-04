@@ -1,7 +1,5 @@
 package cn.xdwanj.data.entity
 
-import org.springframework.stereotype.Component
-
 data class ResolveResult(
     val code: Int,
     val durl: String,

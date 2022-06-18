@@ -1,13 +1,11 @@
 package cn.xdwanj
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import cn.xdwanj.data.api.impl.ResolveApi
 import cn.xdwanj.ui.App
 import com.google.gson.Gson
-import org.springframework.beans.factory.getBean
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.WebApplicationType
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -15,7 +13,6 @@ import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.http.client.ClientHttpRequestFactory
 import org.springframework.http.client.SimpleClientHttpRequestFactory
-import org.springframework.web.client.AsyncRestTemplate
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.reactive.function.client.WebClient
 
@@ -47,9 +44,13 @@ fun main() = application {
     webApplicationType = WebApplicationType.NONE
   }.run()
 
-  val bean = context.getBean<ResolveApi>()
-
-  Window(onCloseRequest = ::exitApplication) {
+  Window(
+    onCloseRequest = {
+      SpringApplication.exit(context)
+      exitApplication()
+    },
+    title = "netdiskresolve-extension"
+  ) {
     App()
   }
 }
